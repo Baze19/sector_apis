@@ -142,7 +142,7 @@ export const deleteUser = async (req, res) => {
       _id: _id,
     });
 
-    if (!sectorToDelete ||  sectorToDelet == null)
+    if (!sectorToDelete ||  sectorToDelete == null)
       return res.status(404).json({ message: "Sector not found" });
 
   
