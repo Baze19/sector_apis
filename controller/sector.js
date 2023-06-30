@@ -2,6 +2,10 @@ import { validateSector } from "../joiValidation/validation.js";
 import sectorModel from "../model/sector.js";
 import sectorDataModel from "../model/sectorsData.js";
 import mongoose from "mongoose";
+
+
+
+
 export const createNewUser = async (req, res) => {
   try {
     const sectorDetails = req.body;
@@ -22,6 +26,19 @@ export const createNewUser = async (req, res) => {
       data: savedSector,
       success: true,
       message: "Sector created successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const getAllSectors = await sectorModel.find().sort({ createdAt: -1 });
+    res.status(200).json({
+      data: getAllSectors,
+      success: true,
+      message: "Sectors fetched successfully",
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -108,5 +125,34 @@ export const updateUser = async (req, res) => {
   } catch (error) {
     console.log({ error });
     res.status(500).json({ error: error.message });
+  }
+};
+
+
+export const deleteUser = async (req, res) => {
+  //validate the id with mongoose
+  try {
+    const creator = req?.user?.id;
+    const { id: _id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(_id))
+      return res.status(409).send(`there is no parent with the id of ${_id}`);
+
+    const sectorToDelete = await sectorModel.findOne({
+      creator,
+      _id: _id,
+    });
+
+    if (!sectorToDelete ||  sectorToDelet == null)
+      return res.status(404).json({ message: "Sector not found" });
+
+  
+
+    await sectorModel.deleteOne({ _id });
+
+    res
+      .status(200)
+      .json({ success: true, message: "Sector deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
