@@ -135,7 +135,7 @@ export const deleteUser = async (req, res) => {
     const creator = req?.user?.id;
     const { id: _id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(_id))
-      return res.status(409).send(`there is no parent with the id of ${_id}`);
+      return res.status(409).send(`there is no user with the id of ${_id}`);
 
     const sectorToDelete = await sectorModel.findOne({
       creator,

@@ -15,7 +15,7 @@ router.get("/AllUsers", getAllUsers);
 router.get("/getAllSectors",   getAllSectors);
 router.put("/editUser/:id", updateUser);
 router.post("/newSector", newSectors);
-router.delete("/deleteUser", deleteUser);
+router.delete("/deleteUser/:id", deleteUser);
 
 router.get("/getUserDetail/:id", getUserDetail);
 
